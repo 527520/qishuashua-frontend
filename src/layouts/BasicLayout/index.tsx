@@ -12,8 +12,11 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import GlobalFooter from "@/components/GlobalFooter";
-import "./index.css";
 import { menus } from "../../../config/menu";
+import { useSelector } from "react-redux";
+import { RootState } from "@/stores";
+import getAccessibleMenus from "@/access/menuAccess";
+import "./index.css";
 
 /**
  * 搜索条
@@ -58,6 +61,8 @@ interface Props {
  */
 export default function BasicLayout({ children }: Props) {
   const pathname = usePathname();
+  // 获取登录用户
+  const loginUser = useSelector((state: RootState) => state.loginUser);
   return (
     <div
       id="basicLayout"
@@ -86,9 +91,9 @@ export default function BasicLayout({ children }: Props) {
           },
         }}
         avatarProps={{
-          src: "https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg",
+          src: loginUser.userAvatar || "/access/notLoginUser.png",
           size: "small",
-          title: "吴奇安",
+          title: loginUser.userName || "奇刷刷",
           render: (props, dom) => {
             return (
               <Dropdown
@@ -131,7 +136,7 @@ export default function BasicLayout({ children }: Props) {
         onMenuHeaderClick={(e) => console.log(e)}
         // 定义有哪些菜单
         menuDataRender={() => {
-          return menus;
+          return getAccessibleMenus(loginUser, menus);
         }}
         menuItemRender={(item, dom) => (
           <Link

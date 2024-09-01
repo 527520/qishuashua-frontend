@@ -167,6 +167,7 @@ declare namespace API {
     userName?: string;
     userProfile?: string;
     userRole?: string;
+    phoneNumber?: string;
   };
 
   type OrderItem = {
