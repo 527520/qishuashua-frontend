@@ -21,7 +21,7 @@ export const menus = [
     target: "_blank",
   },
   {
-    path: "/management",
+    path: "/admin",
     name: "管理",
     icon: <CrownOutlined />,
     access: ACCESS_ENUM.ADMIN,

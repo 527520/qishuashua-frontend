@@ -2,12 +2,13 @@
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import BasicLayout from "@/layouts/BasicLayout";
 import React, { useCallback, useEffect } from "react";
-import { Provider } from "react-redux";
-import store from "@/stores";
-import "./globals.css";
+import {Provider, useDispatch} from "react-redux";
+import store, {AppDispatch} from "@/stores";
 import { getLoginUserUsingGet } from "@/api/userController";
 import { usePathname } from "next/navigation";
 import AccessLayout from "@/access/AccessLayout";
+import {setLoginUser} from "@/stores/loginUser";
+import "./globals.css";
 
 /**
  * 全局初始化逻辑
@@ -18,6 +19,7 @@ const InitLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
   children,
 }) => {
   const pathname = usePathname();
+  const dispatch = useDispatch<AppDispatch>();
 
   /**
    * 全局单次调用的代码都可以写到这里
@@ -30,8 +32,10 @@ const InitLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
       const res = await getLoginUserUsingGet();
       if (res.data) {
         // 跟新全局用户状态
+        dispatch(setLoginUser(res.data));
       } else {
         // 跳转到登录页
+        window.location.href = `/user/login?redirect=${window.location.href}`;
       }
     }
   }, []);
