@@ -1,4 +1,4 @@
-import { addUserUsingPost } from "@/api/userController";
+import { addQuestionBankUsingPost } from "@/api/questionBankController";
 import { ProColumns, ProTable } from "@ant-design/pro-components";
 import { message, Modal } from "antd";
 import React, { useState } from "react";
@@ -6,8 +6,8 @@ import ImageUpload from "@/components/ImageUpload";
 
 interface Props {
   visible: boolean;
-  columns: ProColumns<API.User>[];
-  onSubmit: (values: API.UserAddRequest) => void;
+  columns: ProColumns<API.QuestionBank>[];
+  onSubmit: (values: API.QuestionBankAddRequest) => void;
   onCancel: () => void;
 }
 
@@ -15,10 +15,10 @@ interface Props {
  * 添加节点
  * @param fields
  */
-const handleAdd = async (fields: API.UserAddRequest) => {
+const handleAdd = async (fields: API.QuestionBankAddRequest) => {
   const hide = message.loading("正在添加");
   try {
-    await addUserUsingPost(fields);
+    await addQuestionBankUsingPost(fields);
     hide();
     message.success("创建成功");
     return true;
@@ -36,7 +36,7 @@ const handleAdd = async (fields: API.UserAddRequest) => {
  */
 const CreateModal: React.FC<Props> = (props) => {
   const { visible, columns, onSubmit, onCancel } = props;
-  const [avatarUrl, setAvatarUrl] = useState<string | undefined>(undefined);
+  const [imgUrl, setImgUrl] = useState<string | undefined>(undefined);
 
   return (
     <Modal
@@ -51,20 +51,20 @@ const CreateModal: React.FC<Props> = (props) => {
       <ProTable
         type="form"
         columns={columns.map((column) => {
-          if (column.dataIndex === "userAvatar") {
+          if (column.dataIndex === "picture") {
             return {
               ...column,
               renderFormItem: () => (
-                <ImageUpload onUploadSuccess={setAvatarUrl} biz="user_avatar" />
+                <ImageUpload onUploadSuccess={setImgUrl} biz="question_bank" />
               ),
             };
           }
           return column;
         })}
-        onSubmit={async (values: API.UserAddRequest) => {
+        onSubmit={async (values: API.QuestionBankAddRequest) => {
           const success = await handleAdd({
             ...values,
-            userAvatar: avatarUrl,
+            picture: imgUrl,
           });
           if (success) {
             onSubmit?.(values);

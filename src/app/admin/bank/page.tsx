@@ -2,40 +2,39 @@
 import CreateModal from "./components/CreateModal";
 import UpdateModal from "./components/UpdateModal";
 import {
-  deleteUserUsingPost,
-  listUserByPageUsingPost,
-} from "@/api/userController";
-import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
+  deleteQuestionBankUsingPost,
+  listQuestionBankByPageUsingPost,
+} from "@/api/questionBankController";
+import { PlusOutlined } from "@ant-design/icons";
 import type { ActionType, ProColumns } from "@ant-design/pro-components";
 import { PageContainer, ProTable } from "@ant-design/pro-components";
-import { Button, message, Popconfirm, Space, Typography, Upload } from "antd";
+import { Button, message, Popconfirm, Space, Typography } from "antd";
 import React, { useRef, useState } from "react";
-import ImageUpload from "@/components/ImageUpload";
 
 /**
- * 用户管理页面
+ * 题库管理页面
  *
  * @constructor
  */
-const UserAdminPage: React.FC = () => {
+const QuestionBankAdminPage: React.FC = () => {
   // 是否显示新建窗口
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
   // 是否显示更新窗口
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  // 当前用户点击的数据
-  const [currentRow, setCurrentRow] = useState<API.User>();
+  // 当前题库点击的数据
+  const [currentRow, setCurrentRow] = useState<API.QuestionBank>();
 
   /**
    * 删除节点
    *
    * @param row
    */
-  const handleDelete = async (row: API.User) => {
+  const handleDelete = async (row: API.QuestionBank) => {
     const hide = message.loading("正在删除");
     if (!row) return true;
     try {
-      await deleteUserUsingPost({
+      await deleteQuestionBankUsingPost({
         id: row.id as any,
       });
       hide();
@@ -52,7 +51,7 @@ const UserAdminPage: React.FC = () => {
   /**
    * 表格列配置
    */
-  const columns: ProColumns<API.User>[] = [
+  const columns: ProColumns<API.QuestionBank>[] = [
     {
       title: "id",
       dataIndex: "id",
@@ -62,56 +61,117 @@ const UserAdminPage: React.FC = () => {
       width: 200,
     },
     {
-      title: "账号",
-      dataIndex: "userAccount",
+      title: "标题",
+      dataIndex: "title",
       valueType: "text",
       copyable: true,
-      width: 100,
+      width: 200,
     },
     {
-      title: "用户名",
-      dataIndex: "userName",
+      title: "描述",
+      dataIndex: "description",
+      valueType: "textarea",
+      ellipsis: true,
+      width: 200,
+    },
+    {
+      title: "用户id",
+      dataIndex: "userId",
       valueType: "text",
+      hideInForm: true,
       copyable: true,
+      width: 200,
     },
     {
-      title: "手机号",
-      dataIndex: "phoneNumber",
-      valueType: "text",
-      copyable: true,
-      width: 140,
-    },
-    {
-      title: "头像",
-      dataIndex: "userAvatar",
+      title: "图片",
+      dataIndex: "picture",
       valueType: "image",
       width: 100,
       fieldProps: {
-        width: 54,
+        width: 64,
       },
       hideInSearch: true,
     },
     {
-      title: "简介",
-      dataIndex: "userProfile",
-      valueType: "textarea",
-      ellipsis: true,
-    },
-    {
-      title: "权限",
-      dataIndex: "userRole",
-      width: 70,
+      title: "状态",
+      dataIndex: "reviewStatus",
+      width: 80,
       valueEnum: {
-        user: {
-          text: "用户",
+        0: {
+          text: "待审核",
         },
-        admin: {
-          text: "管理员",
+        1: {
+          text: "通过",
         },
-        vip: {
-          text: "VIP",
+        2: {
+          text: "拒绝",
+        },
+        99: {
+          text: "无需审核",
         },
       },
+    },
+    {
+      title: "可见状态",
+      dataIndex: "visibleStatus",
+      width: 100,
+      valueEnum: {
+        0: {
+          text: "所有人可见",
+        },
+        1: {
+          text: "仅本人可见",
+        },
+      },
+    },
+    {
+      title: "审核信息",
+      dataIndex: "reviewMessage",
+      valueType: "text",
+      width: 140,
+    },
+    {
+      title: "审核人id",
+      dataIndex: "reviewerId",
+      valueType: "text",
+      hideInForm: true,
+      copyable: true,
+      width: 200,
+    },
+    {
+      title: "审核时间",
+      sorter: true,
+      dataIndex: "reviewTime",
+      valueType: "dateTime",
+      hideInForm: true,
+      hideInSearch: true,
+      width: 150,
+    },
+    {
+      title: "优先级",
+      dataIndex: "priority",
+      valueType: "text",
+      hideInSearch: true,
+      sorter: true,
+      width: 80,
+    },
+    {
+      title: "浏览量",
+      dataIndex: "viewNum",
+      valueType: "text",
+      hideInForm: true,
+      hideInSearch: true,
+      sorter: true,
+      width: 100,
+    },
+    {
+      title: "编辑时间",
+      sorter: true,
+      dataIndex: "editTime",
+      valueType: "dateTime",
+      hideInSearch: true,
+      hideInForm: true,
+      width: 150,
     },
     {
       title: "创建时间",
@@ -162,13 +222,13 @@ const UserAdminPage: React.FC = () => {
   ];
   return (
     <PageContainer>
-      <ProTable<API.User>
-        headerTitle={"用户信息"}
+      <ProTable<API.QuestionBank>
+        headerTitle={"题库信息"}
         actionRef={actionRef}
         rowKey="key"
-        scroll={{ x: 1300 }}
+        scroll={{ x: 2400 }}
         search={{
-          labelWidth: 60,
+          labelWidth: 80,
         }}
         toolBarRender={() => [
           <Button
@@ -185,12 +245,12 @@ const UserAdminPage: React.FC = () => {
           const sortField = Object.keys(sort)?.[0];
           const sortOrder = sort?.[sortField] ?? undefined;
 
-          const { data, code } = await listUserByPageUsingPost({
+          const { data, code } = await listQuestionBankByPageUsingPost({
             ...params,
             sortField,
             sortOrder,
             ...filter,
-          } as API.UserQueryRequest);
+          } as API.QuestionBankQueryRequest);
 
           return {
             success: code === 0,
@@ -227,4 +287,4 @@ const UserAdminPage: React.FC = () => {
     </PageContainer>
   );
 };
-export default UserAdminPage;
+export default QuestionBankAdminPage;

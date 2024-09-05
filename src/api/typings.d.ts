@@ -581,6 +581,8 @@ declare namespace API {
     sortField?: string;
     sortOrder?: string;
     unionId?: string;
+    userAccount?: string;
+    phoneNumber?: string;
     userName?: string;
     userProfile?: string;
     userRole?: string;

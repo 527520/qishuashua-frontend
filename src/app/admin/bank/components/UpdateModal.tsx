@@ -1,14 +1,14 @@
-import { updateUserUsingPost } from "@/api/userController";
+import { updateQuestionBankUsingPost } from "@/api/questionBankController";
 import { ProColumns, ProTable } from "@ant-design/pro-components";
 import { message, Modal } from "antd";
 import React, { useState } from "react";
 import ImageUpload from "@/components/ImageUpload";
 
 interface Props {
-  oldData?: API.User;
+  oldData?: API.QuestionBank;
   visible: boolean;
-  columns: ProColumns<API.User>[];
-  onSubmit: (values: API.UserAddRequest) => void;
+  columns: ProColumns<API.QuestionBank>[];
+  onSubmit: (values: API.QuestionBankAddRequest) => void;
   onCancel: () => void;
 }
 
@@ -17,10 +17,10 @@ interface Props {
  *
  * @param fields
  */
-const handleUpdate = async (fields: API.UserUpdateRequest) => {
+const handleUpdate = async (fields: API.QuestionBankUpdateRequest) => {
   const hide = message.loading("正在更新");
   try {
-    await updateUserUsingPost(fields);
+    await updateQuestionBankUsingPost(fields);
     hide();
     message.success("更新成功");
     return true;
@@ -38,7 +38,7 @@ const handleUpdate = async (fields: API.UserUpdateRequest) => {
  */
 const UpdateModal: React.FC<Props> = (props) => {
   const { oldData, visible, columns, onSubmit, onCancel } = props;
-  const [avatarUrl, setAvatarUrl] = useState<string | undefined>(undefined);
+  const [imgUrl, setImgUrl] = useState<string | undefined>(undefined);
 
   if (!oldData) {
     return <></>;
@@ -61,7 +61,7 @@ const UpdateModal: React.FC<Props> = (props) => {
             return {
               ...column,
               renderFormItem: () => (
-                <ImageUpload onUploadSuccess={setAvatarUrl} biz="user_avatar" />
+                <ImageUpload onUploadSuccess={setImgUrl} biz="question_bank" />
               ),
             };
           }
@@ -70,11 +70,11 @@ const UpdateModal: React.FC<Props> = (props) => {
         form={{
           initialValues: oldData,
         }}
-        onSubmit={async (values: API.UserAddRequest) => {
+        onSubmit={async (values: API.QuestionBankAddRequest) => {
           const success = await handleUpdate({
             ...values,
             id: oldData?.id as any,
-            userAvatar: avatarUrl,
+            picture: imgUrl,
           } as any);
           if (success) {
             onSubmit?.(values);
