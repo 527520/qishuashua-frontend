@@ -8,12 +8,12 @@ export const menus = [
     name: "主页",
   },
   {
-    path: "/questions",
-    name: "题目",
-  },
-  {
     path: "/banks",
     name: "题库",
+  },
+  {
+    path: "/questions",
+    name: "题目",
   },
   {
     path: "http://qioj.com.cn",
@@ -34,6 +34,11 @@ export const menus = [
       {
         path: "/admin/bank",
         name: "题库管理",
+        access: ACCESS_ENUM.ADMIN,
+      },
+      {
+        path: "/admin/question",
+        name: "题目管理",
         access: ACCESS_ENUM.ADMIN,
       },
     ],

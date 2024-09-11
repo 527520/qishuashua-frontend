@@ -1,16 +1,16 @@
 // @ts-ignore
 /* eslint-disable */
-import request from '@/libs/request';
+import request from "@/libs/request";
 
 /** addQuestion POST /api/question/add */
 export async function addQuestionUsingPost(
   body: API.QuestionAddRequest,
   options?: { [key: string]: any },
 ) {
-  return request<API.BaseResponseLong_>('/api/question/add', {
-    method: 'POST',
+  return request<API.BaseResponseLong_>("/api/question/add", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     data: body,
     ...(options || {}),
@@ -22,10 +22,10 @@ export async function deleteQuestionUsingPost(
   body: API.DeleteRequest,
   options?: { [key: string]: any },
 ) {
-  return request<API.BaseResponseBoolean_>('/api/question/delete', {
-    method: 'POST',
+  return request<API.BaseResponseBoolean_>("/api/question/delete", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     data: body,
     ...(options || {}),
@@ -37,10 +37,10 @@ export async function editQuestionUsingPost(
   body: API.QuestionEditRequest,
   options?: { [key: string]: any },
 ) {
-  return request<API.BaseResponseBoolean_>('/api/question/edit', {
-    method: 'POST',
+  return request<API.BaseResponseBoolean_>("/api/question/edit", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     data: body,
     ...(options || {}),
@@ -53,8 +53,8 @@ export async function getQuestionVoByIdUsingGet(
   params: API.getQuestionVOByIdUsingGETParams,
   options?: { [key: string]: any },
 ) {
-  return request<API.BaseResponseQuestionVO_>('/api/question/get/vo', {
-    method: 'GET',
+  return request<API.BaseResponseQuestionVO_>("/api/question/get/vo", {
+    method: "GET",
     params: {
       ...params,
     },
@@ -67,10 +67,10 @@ export async function listQuestionByPageUsingPost(
   body: API.QuestionQueryRequest,
   options?: { [key: string]: any },
 ) {
-  return request<API.BaseResponsePageQuestion_>('/api/question/list/page', {
-    method: 'POST',
+  return request<API.BaseResponsePageQuestion_>("/api/question/list/page", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     data: body,
     ...(options || {}),
@@ -82,14 +82,17 @@ export async function listQuestionVoByPageUsingPost(
   body: API.QuestionQueryRequest,
   options?: { [key: string]: any },
 ) {
-  return request<API.BaseResponsePageQuestionVO_>('/api/question/list/page/vo', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+  return request<API.BaseResponsePageQuestionVO_>(
+    "/api/question/list/page/vo",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: body,
+      ...(options || {}),
     },
-    data: body,
-    ...(options || {}),
-  });
+  );
 }
 
 /** listMyQuestionVOByPage POST /api/question/my/list/page/vo */
@@ -97,14 +100,17 @@ export async function listMyQuestionVoByPageUsingPost(
   body: API.QuestionQueryRequest,
   options?: { [key: string]: any },
 ) {
-  return request<API.BaseResponsePageQuestionVO_>('/api/question/my/list/page/vo', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+  return request<API.BaseResponsePageQuestionVO_>(
+    "/api/question/my/list/page/vo",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: body,
+      ...(options || {}),
     },
-    data: body,
-    ...(options || {}),
-  });
+  );
 }
 
 /** updateQuestion POST /api/question/update */
@@ -112,10 +118,10 @@ export async function updateQuestionUsingPost(
   body: API.QuestionUpdateRequest,
   options?: { [key: string]: any },
 ) {
-  return request<API.BaseResponseBoolean_>('/api/question/update', {
-    method: 'POST',
+  return request<API.BaseResponseBoolean_>("/api/question/update", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     data: body,
     ...(options || {}),

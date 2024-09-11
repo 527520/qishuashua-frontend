@@ -127,23 +127,6 @@ declare namespace API {
     id?: number;
   };
 
-  type getQuestionBankVOByIdUsingGETParams = {
-    current?: number;
-    description?: string;
-    id?: number;
-    needQueryQuestionList?: boolean;
-    notId?: number;
-    pageSize?: number;
-    picture?: string;
-    reviewStatus?: number;
-    searchText?: string;
-    sortField?: string;
-    sortOrder?: string;
-    title?: string;
-    userId?: number;
-    visibleStatus?: number;
-  };
-
   type getQuestionVOByIdUsingGETParams = {
     /** id */
     id?: number;
@@ -162,12 +145,12 @@ declare namespace API {
   type LoginUserVO = {
     createTime?: string;
     id?: number;
+    phoneNumber?: string;
     updateTime?: string;
     userAvatar?: string;
     userName?: string;
     userProfile?: string;
     userRole?: string;
-    phoneNumber?: string;
   };
 
   type OrderItem = {
@@ -359,7 +342,9 @@ declare namespace API {
     notId?: number;
     pageSize?: number;
     picture?: string;
+    reviewMessage?: string;
     reviewStatus?: number;
+    reviewerId?: number;
     searchText?: string;
     sortField?: string;
     sortOrder?: string;
@@ -437,7 +422,7 @@ declare namespace API {
     id?: number;
     picture?: string;
     priority?: number;
-    questionPage?: PageQuestion_;
+    questionPage?: PageQuestionVO_;
     reviewMessage?: string;
     reviewStatus?: string;
     reviewTime?: string;
@@ -483,9 +468,11 @@ declare namespace API {
     pageSize?: number;
     questionBankId?: number;
     reviewStatus?: number;
+    reviewerId?: number;
     searchText?: string;
     sortField?: string;
     sortOrder?: string;
+    source?: string;
     tags?: string[];
     title?: string;
     userId?: number;
@@ -578,11 +565,11 @@ declare namespace API {
     id?: number;
     mpOpenId?: string;
     pageSize?: number;
+    phoneNumber?: string;
     sortField?: string;
     sortOrder?: string;
     unionId?: string;
     userAccount?: string;
-    phoneNumber?: string;
     userName?: string;
     userProfile?: string;
     userRole?: string;
@@ -604,6 +591,7 @@ declare namespace API {
 
   type UserUpdateRequest = {
     id?: number;
+    phoneNumber?: string;
     userAvatar?: string;
     userName?: string;
     userProfile?: string;

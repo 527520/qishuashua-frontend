@@ -47,17 +47,17 @@ export async function editQuestionBankUsingPost(
   });
 }
 
-/** getQuestionBankVOById GET /api/questionBank/get/vo */
-export async function getQuestionBankVoByIdUsingGet(
-  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.getQuestionBankVOByIdUsingGETParams,
+/** getQuestionBankVOById POST /api/questionBank/get/vo */
+export async function getQuestionBankVoByIdUsingPost(
+  body: API.QuestionBankQueryRequest,
   options?: { [key: string]: any },
 ) {
   return request<API.BaseResponseQuestionBankVO_>('/api/questionBank/get/vo', {
-    method: 'GET',
-    params: {
-      ...params,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
+    data: body,
     ...(options || {}),
   });
 }
