@@ -502,7 +502,7 @@ const QuestionAdminPage: React.FC = () => {
       />
       <UpdateBankModal
         visible={updateBankModalVisible}
-        questionIdList={currentRow?.id}
+        questionId={currentRow?.id}
         onCancel={() => {
           setUpdateBankModalVisible(false);
         }}
